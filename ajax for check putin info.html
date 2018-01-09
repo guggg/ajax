@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <h1>Demo 郵件系統 - 使用者註冊</h1>
+          <form name = "regForm"id = "regForm" action="DoRegister.jsp" method="post">
+              註冊使用者名稱：
+              <input type="text" name="userName" id = "userName" onblur="checkUser();" value="">
+                <label id = "checkResult"></label>
+              <br><br>
+              註冊密碼：
+              <input type="password" name="password" id = "password">
+              確認密碼：
+              <input type="password" name="passwordchk" id ="passwordchk">
+              <input type="submit" name="" value="傳送">
+          </form>
+      <script type="text/javascript">
+        var req;
+        function checkUser(){
+          var checkResult = document.getElementById("checkResult");
+          checkResult.innerHTML = "正在檢核是否合乎規定...";
+          var userName = document.getElementById("userName").value;
+          req = new ActiveXObject("Microsoft.XMLHttp");
+
+          req.open("get", "http://localhost:8080/test1/CheckUserName.jsp?checkUserName=" + userName);
+          req.onreadystatechange = handleRequest;
+          req.send(null);
+        }
+        function handleRequest() {
+          var checkResult = document.getElementById("checkResult");
+          if (req.readyState == 4){
+            if(req.status == 200){
+              checkResult.innerHTML = req.responseText;
+            }
+            else{
+              alter("An error ocurred:" + req.statusText);
+            }
+          }
+        }
+      </script>
+  </body>
+</html>
